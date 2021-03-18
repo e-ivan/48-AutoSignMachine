@@ -58,7 +58,7 @@ module.exports = {
         var accounts = []
         var arg_group = {}
         for (let arg_k in argv) {
-            let arg = argv[arg_k]
+            let arg = argv[arg_k] + ''
             if (arg_k.indexOf('-') !== -1) {
                 let arg_k_split = arg_k.split('-')
                 let t = arg_k_split.pop()

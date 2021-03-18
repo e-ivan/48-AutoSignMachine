@@ -101,25 +101,25 @@ var dailyShop = {
             }
         }
 
-        console.info('尝试5次，花费10定向积分兑换抽奖机会')
-
-        await require('./integral').getDxDetail(axios, options)
-
-        let n = 5 // max 30
-        do {
-            console.info('第', n, '次')
-            let flag = await dailyShop.duihuan(axios, {
-                ...options,
-                encryptmobile
-            })
-            if (!flag) {
-                continue
-            }
-            await dailyShop.dailyfreelottery(axios, {
-                ...options,
-                encryptmobile
-            })
-        } while (--n > 0)
+        // console.info('尝试5次，花费10定向积分兑换抽奖机会')
+        //
+        // await require('./integral').getDxDetail(axios, options)
+        //
+        // let n = 5 // max 30
+        // do {
+        //     console.info('第', n, '次')
+        //     let flag = await dailyShop.duihuan(axios, {
+        //         ...options,
+        //         encryptmobile
+        //     })
+        //     if (!flag) {
+        //         continue
+        //     }
+        //     await dailyShop.dailyfreelottery(axios, {
+        //         ...options,
+        //         encryptmobile
+        //     })
+        // } while (--n > 0)
     }
 }
 module.exports = dailyShop

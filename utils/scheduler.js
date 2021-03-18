@@ -354,7 +354,7 @@ let scheduler = {
                                     taskState: 2,
                                     taskRemark: '错误过多停止'
                                 }
-                                console.notify('任务错误次数过多，停止该任务后续执行')
+                                // console.notify('任务错误次数过多，停止该任务后续执行')
                                 scheduler.updateTaskFile(task, newTask)
                             } else {
                                 let newTask = {

@@ -173,21 +173,22 @@ var notify = {
         }
         return msg
     },
-    sendLog: async () => {
+    sendLog: async (msg) => {
+        msg = msg ? msg : notify.buildMsg();
         if (process.env.notify_sctkey) {
-            notify.sct_send(notify.buildMsg())
+            await notify.sct_send(msg)
         }
         if (process.env.notify_sckey) {
-            notify.sc_send(notify.buildMsg())
+            await notify.sc_send(msg)
         }
         if (process.env.notify_tele_bottoken && process.env.notify_tele_chatid) {
-            notify.tele_send(notify.buildMsg())
+            await notify.tele_send(msg)
         }
         if (process.env.notify_dingtalk_token) {
-            notify.dingtalk_send(notify.buildMsg())
+            await notify.dingtalk_send(msg)
         }
         if (process.env.notify_pushplus_token) {
-            notify.pushplus_send(notify.buildMsg())
+            await notify.pushplus_send(msg)
         }
         notify_logs = {}
     }
