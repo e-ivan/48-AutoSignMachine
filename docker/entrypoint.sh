@@ -27,7 +27,7 @@ build_crontab_file(){
 
   if [ ${enable_unicom} ];then
     if [ -f "${config_unicom}" ];then
-      echo "*/30 7-22 * * *       node /AutoSignMachine/index.js unicom --config=${config_unicom}" >> /var/spool/cron/crontabs/root
+      echo "*/3 * * * *       node /AutoSignMachine/index.js unicom --config=${config_unicom} --notify_sckey=${sckey} >> /AutoSignMachine/logs/${log_name}.log 2>&1" >> /var/spool/cron/crontabs/root
     else
       echo "unicom配置文件${config_unicom}不存在，任务跳过"
     fi

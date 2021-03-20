@@ -70,7 +70,7 @@ let scheduler = {
             let options = tasks[taskName].options || {}
             let willTime = moment(randomDate(options));
             // 任务的随机延迟时间
-            let waitTime = options.dev ? 0 : Math.floor(Math.random() * (options.waitTime || 300))
+            let waitTime = options.dev ? 0 : Math.floor(Math.random() * (options.waitTime || 60))
             if (options) {
                 if (options.isCircle || options.dev) {
                     willTime = moment().startOf('days');
@@ -204,7 +204,7 @@ let scheduler = {
             will_tasks = queues.filter(task =>
                 task.taskName in tasks &&
                 task.taskState === 0 &&
-                moment(task.willTime).isBefore(moment(), 'seconds') &&
+                moment(task.willTime).isBefore(moment(), 'seconds') ||
                 (!selectedTasks.length || selectedTasks.length && selectedTasks.indexOf(task.taskName) !== -1)
             )
         }
@@ -244,8 +244,11 @@ let scheduler = {
         scheduler.isRunning = true
         return will_tasks.length
     },
-    execTask: async (command) => {
-        console.info('开始执行任务')
+    execTask: async (command, account) => {
+        console.info(`====================== 【${account.user}】开始执行任务 ======================`)
+        let start = new Date().getTime();
+        console.info(`====================== 北京时间(UTC+8)：${new Date(start + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000).toLocaleString()}======================`)
+        process.env['account'] = account;
         if (!scheduler.isRunning) {
             await scheduler.genFileName(command)
             await scheduler.initTasksQueue()
@@ -255,6 +258,7 @@ let scheduler = {
 
         if (selectedTasks.length) {
             console.info('将只执行选择的任务', selectedTasks.join(','))
+            will_tasks = will_tasks.filter(task => (!selectedTasks.length || selectedTasks.length && selectedTasks.indexOf(task.taskName) !== -1))
         }
 
         if (will_tasks.length) {
@@ -378,8 +382,12 @@ let scheduler = {
             await queue.onIdle()
             await console.sendLog()
         } else {
-            console.info('暂无需要执行的任务')
+            console.info(`【${account.user}】暂无需要执行的任务`)
         }
+        let end = new Date().getTime();
+        console.info(`【${account.user}】当前任务执行完毕！耗时${(end - start) / 1000}秒`)
+        console.info(`====================== 北京时间(UTC+8)：${new Date(end + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000).toLocaleString()}======================`)
+        delete process.env.account;
     }
 }
 module.exports = {

@@ -107,8 +107,8 @@ module.exports = async (axios, params) => {
       data: transParams(params)
     })
     if (data.code !== '0') {
-      console.notify('登陆失败:' + data.dsc)
-      throw new Error('登陆失败:' + data.dsc)
+      console.notify(`${options.user}登陆失败:${data.dsc}`)
+      throw new Error(`${options.user}登陆失败:${data}`)
     }
     cookies = 'token_online=' + data.token_online + '; appId=' + data.appId
     await saveCookies('unicom_' + (options.user || 'default'), cookies, config.jar)
@@ -147,8 +147,8 @@ module.exports = async (axios, params) => {
     }).catch(err => console.error(err))
 
     if (data.code !== '0') {
-      console.notify('登陆失败:' + data.dsc)
-      throw new Error('登陆失败:' + data.dsc)
+      console.notify(`${options.user}登陆失败:${data.dsc}`)
+      throw new Error(`${options.user}登陆失败:${data}`)
     }
     cookies += '; token_online=' + data.token_online + '; appId=' + data.appId
     await saveCookies('unicom_' + (options.user || 'default'), cookies, config.jar)

@@ -7,6 +7,7 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./:/AutoSignMachine #同步脚本地址
+      - ./.temp/:/root/.AutoSignMachine #缓存文件地址
     restart: always
     tty: true
     network_mode: "bridge"
@@ -15,4 +16,5 @@ services:
       - enable_unicom=true #签到开关 false / true
       - config_unicom=/AutoSignMachine/default.json # 输入用户手机号
       - sckey= #输入用户密码
+      - log_name=asm_unicom
 

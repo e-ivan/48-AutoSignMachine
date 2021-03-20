@@ -54,20 +54,19 @@ exports.handler = async function (argv) {
                 tasks: account.tasks
             })
             if (hasTasks) {
-                await scheduler.execTask(command, account.tasks).catch(err => console.error("unicom任务:", err)).finally(() => {
+                await scheduler.execTask(command, account).catch(err => console.error("unicom任务:", err)).finally(() => {
                     if (Object.prototype.toString.call(scheduler.taskJson.rewards) === '[object Object]') {
                         msg += `**以下为${account.user}任务消息**\n\n`
                         console.info('今日获得奖品信息统计')
                         msg += '今日获得奖品信息统计';
                         for (let type in scheduler.taskJson.rewards) {
                             console.info(`\t`, type, scheduler.taskJson.rewards[type])
-                            msg += util.format.apply(null, `\t`, type, scheduler.taskJson.rewards[type]);
+                            msg += `\t${type}\t${scheduler.taskJson.rewards[type]}`;
                         }
                     }
-                    console.info('当前任务执行完毕！')
                 })
             } else {
-                console.info('暂无可执行任务！')
+                console.info(`【${account.user}】暂无可执行任务！`)
             }
         })
     }
